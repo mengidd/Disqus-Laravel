@@ -652,6 +652,24 @@
         "rss"
       ]
     },
+    "addModerator": {
+      "required": [
+        "forum"
+      ],
+      "method": "POST",
+      "formats": [
+        "json",
+        "jsonp"
+      ]
+    },
+    "removeModerator": {
+      "required": [],
+      "method": "POST",
+      "formats": [
+        "json",
+        "jsonp"
+      ]
+    },
     "listModerators": {
       "required": [
         "forum"
