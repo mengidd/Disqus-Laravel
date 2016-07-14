@@ -4,6 +4,7 @@ namespace Mengidd\Disqus;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
 
@@ -30,6 +31,13 @@ class DisqusAPI
      * @var bool
      */
     private $useSecure = true;
+
+    /**
+     * How many minutes we want to cache data
+     *
+     * @var int
+     */
+    private $cache = 0;
 
     /**
      * The API key for Disqus
@@ -67,15 +75,23 @@ class DisqusAPI
     private $client;
 
     /**
+     * The cache repository
+     *
+     * @var CacheRepository
+     */
+    private $cacheRepository;
+
+    /**
      * DisqusAPI constructor.
      *
      * @param ConfigRepository $config
      */
-    public function __construct(ConfigRepository $config)
+    public function __construct(ConfigRepository $config, CacheRepository $cacheRepository)
     {
         $this->apiKey = $config['disqus']['secret'];
         $this->accessToken = $config['disqus']['access_token'];
         $this->forum = $config['disqus']['forum'];
+        $this->cacheRepository = $cacheRepository;
 
         $this->client = new Client([
             'base_uri' => ($this->useSecure ? 'https' : 'http') . '://' . $this->url . '/' . $this->apiVersion . '/',
@@ -96,6 +112,19 @@ class DisqusAPI
     }
 
     /**
+     * Sets the cache time in minutes
+     *
+     * @param $minutes
+     * @return $this
+     */
+    public function cache($minutes)
+    {
+        $this->cache = $minutes;
+
+        return $this;
+    }
+
+    /**
      * Send a request to Disqus
      *
      * @param        $resource
@@ -110,13 +139,30 @@ class DisqusAPI
         // Remove the indexes from array parameters (param[0]=example&param[1]=test into param[]=example&param[]=test)
         $queryParameters = preg_replace('/\%5B\d+\%5D/', '%5B%5D', http_build_query($this->parameters));
 
+        // If cache is set to more than 0 minutes check if we have cached this request
+        if ($this->cache > 0) {
+            $cacheKey = md5($resource . $queryParameters);
+
+            if ($this->cacheRepository->has($cacheKey)) {
+                return $this->cacheRepository->get($cacheKey);
+            }
+        }
+
+        // Send request to the Disqus endpoint
         $response = $this->client->request($method, $resource . '.json', [
             'query' => $queryParameters
         ]);
 
+        echo 'Request sent';
+
         $data = json_decode($response->getBody(), true);
 
         $response = new Collection($data['response']);
+
+        // If cache is set to more than 0 minutes cache the data
+        if ($this->cache > 0) {
+            $this->cacheRepository->put($cacheKey, $response, $this->cache);
+        }
 
         return $response;
     }

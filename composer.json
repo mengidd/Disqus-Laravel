@@ -13,6 +13,7 @@
         "php": ">=5.5.9",
         "illuminate/config": "^5.1",
         "illuminate/support": "^5.1",
+        "illuminate/cache": "^5.1",
         "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
