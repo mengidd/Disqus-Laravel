@@ -152,8 +152,6 @@ class DisqusAPI
             'query' => $queryParameters
         ]);
 
-        echo 'Request sent';
-
         $data = json_decode($response->getBody(), true);
 
         $response = new Collection($data['response']);
