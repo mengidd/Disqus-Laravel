@@ -2,7 +2,6 @@
 
 namespace Mengidd\Disqus\Resources;
 
-
 class PostsList extends Resource
 {
     /**

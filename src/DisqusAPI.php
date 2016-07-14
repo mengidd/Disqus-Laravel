@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
-
 class DisqusAPI
 {
 
@@ -180,5 +179,4 @@ class DisqusAPI
             $this->parameters['forum'] = $this->forum;
         }
     }
-
 }

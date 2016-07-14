@@ -22,5 +22,4 @@ class Disqus
     {
         return new ThreadsList();
     }
-
 }

@@ -3,7 +3,8 @@
 use Illuminate\Support\ServiceProvider;
 use Mengidd\Disqus\Disqus;
 
-class DisqusServiceProvider extends ServiceProvider {
+class DisqusServiceProvider extends ServiceProvider
+{
 
     /**
      * Bootstrap the application events.
@@ -25,5 +26,4 @@ class DisqusServiceProvider extends ServiceProvider {
     {
         $this->app->bind('mengidd.disqus', Disqus::class);
     }
-
 }
