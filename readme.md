@@ -19,7 +19,7 @@ Eventually add the facade if you like such things:
 
 Publish the configuration file:
 ```bash
-php artisan vendor:publish
+php artisan vendor:publish --provider="Mengidd\Disqus\Providers\DisqusServiceProvider"
 ```
 
 Update the configuration file `config/disqus.php` with your API keys.
