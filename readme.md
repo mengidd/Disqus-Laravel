@@ -7,9 +7,9 @@ Run the following command to install:
 composer require mengidd/disqus
 ```
 
-Register the service provider with Laravel:
+Register the service provider with Laravel by adding it to the providers array in `config/app.php`:
 ```php
-'Mengidd\Disqus\Providers\DisqusServiceProvider',
+Mengidd\Disqus\Providers\DisqusServiceProvider::class,
 ```
 
 Eventually add the facade if you like such things:
