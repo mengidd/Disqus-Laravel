@@ -1,7 +1,7 @@
 <?php namespace Mengidd\Disqus\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Mengidd\Disqus\Api\Disqus;
+use Mengidd\Disqus\Disqus;
 
 class DisqusServiceProvider extends ServiceProvider {
 
@@ -12,7 +12,8 @@ class DisqusServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/../config/config.php' => config_path('disqus.php')]);
+        $this->publishes([__DIR__ . '/../../config/config.php' => config_path('disqus.php')]);
+        $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'disqus');
     }
 
     /**
@@ -22,7 +23,7 @@ class DisqusServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'disqus');
+        $this->app->bind('mengidd.disqus', Disqus::class);
     }
 
 }

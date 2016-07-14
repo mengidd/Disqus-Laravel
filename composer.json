@@ -1,7 +1,7 @@
 {
     "license": "MIT",
     "name": "mengidd/disqus",
-    "description": "A Laravel 5 wrapper for the Disqus API",
+    "description": "A Laravel 5 package for the Disqus API",
     "authors": [
         {
             "name": "Fredrik Eriksen",
@@ -10,8 +10,10 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "5.0.*"
+        "php": ">=5.5.9",
+        "illuminate/config": "^5.1",
+        "illuminate/support": "^5.1",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
         "psr-4": {

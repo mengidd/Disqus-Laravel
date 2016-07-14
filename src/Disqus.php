@@ -1,5 +1,26 @@
-<?php namespace Mengidd\Disqus;
+<?php
 
-use Mengidd\Disqus\Api\DisqusAPI;
+namespace Mengidd\Disqus;
 
-class Disqus extends DisqusAPI {}
+use Mengidd\Disqus\Resources\PostsList;
+use Mengidd\Disqus\Resources\ThreadsList;
+
+class Disqus
+{
+    /**
+     * Get posts
+     */
+    public function postsList()
+    {
+        return new PostsList();
+    }
+
+    /**
+     * Get threads
+     */
+    public function threadsList()
+    {
+        return new ThreadsList();
+    }
+
+}

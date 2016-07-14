@@ -7,14 +7,14 @@ Run the following command to install:
 composer require mengidd/disqus
 ```
 
-or add the following to your `composer.json` file and run `composer update`:
-```json
-"mengidd/disqus": "1.0.*"
-```
-
 Register the service provider with Laravel:
 ```php
 'Mengidd\Disqus\Providers\DisqusServiceProvider',
+```
+
+Eventually add the facade if you like such things:
+```php
+'Disqus' => Mengidd\Disqus\Facades\DisqusFacade::class,
 ```
 
 Publish the configuration file:
@@ -25,19 +25,36 @@ php artisan vendor:publish
 Update the configuration file `config/disqus.php` with your API keys.
 
 
-## Usage
+## Example Usage
 
-To use the class, simply put this among your use statements in your file:
+You may use the Facade if you want to:
 ```php
-use Mengidd\Disqus\Disqus;
+$posts = \Disqus::postsList()->get();
 ```
 
-You can then use the API like this:
+Or you can use the direct resource classes:
 ```php
-$disqus = new Disqus();
+use Mengidd\Disqus\Resources\PostsList;
 
-// Example API call
-$disqus->threads->list();
+$postsList = new PostsList();
+$posts = $postsList->get();
 ```
 
-Documentation on methods and API usage can be found at http://disqus.com/api/
+##### Filters / Parameters
+
+Fluent filter setters is used to make it simple to filter entries.
+```php
+$date = new DateTime('first day of January 2015');
+
+$posts = \Disqus::postsList()
+    ->related(['thread'])
+    ->limit(100)
+    ->since($date)
+    ->get();
+```
+To see all available methods check out the class file (API docs is under way).
+All the filter methods are named to match the Disqus API parameters, so you might check out the Disqus API aswell.
+
+## Current API coverage
+
+So far only posts/list and threads/list is supported. I plan on adding the rest of the API but time is limited, feel free to send pull requests.

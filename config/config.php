@@ -23,6 +23,17 @@ return [
     |
     */
    
-    'access_token' => null
-    
+    'access_token' => null,
+
+    /*
+    |-------------------------------------------------------------
+    | Default Forum
+    |-------------------------------------------------------------
+    |
+    | The default forum shortname that will be used
+    |
+    */
+
+    'forum' => 'YOUR-FORUM-SHORTNAME'
+
 ];
